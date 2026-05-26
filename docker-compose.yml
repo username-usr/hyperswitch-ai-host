@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  ai-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hyperswitch-ai-host-service
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - REDIS_HOST=ai-cache
+    depends_on:
+      ai-cache:
+        condition: service_healthy
+    
+
+  ai-cache:
+    image: redis:7-alpine
+    container_name: hyperswitch-ai-cache-ring
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+networks:
+  default:
+    name: hyperswitch-ai-network
