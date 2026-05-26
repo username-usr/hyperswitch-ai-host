@@ -17,6 +17,10 @@ The microservice decouples network ingestion from raw tensor mathematics to ensu
 
 ---
 
+## Architecture Diagram
+
+![Architecture Diagram](architecture.png)
+
 ## Performance Matrix
 
 | Request Profile | Execution Pathway | CPU Overhead | Core System Latency |
